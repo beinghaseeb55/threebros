@@ -1,0 +1,158 @@
+main.dart
+
+import 'package:flutter/material.dart';
+import 'package:threebros/screen/list_detail.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'THREE BROS',
+      theme: ThemeData(
+        primarySwatch: Colors.orange,
+      ),
+      home: ThreeBrosList(),
+    );
+  }
+}
+
+
+list_detail.dart
+
+import 'package:flutter/material.dart';
+import 'package:threebros/models/tb_list.dart';
+import 'package:threebros/screen/threebros_detail_screen.dart';
+import 'package:threebros/screen/tb_form.dart';
+
+
+
+class ThreeBrosList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('ThreeBros List'),
+      ),
+      body: ListView.builder(
+
+        itemCount: threebros.length, 
+
+        itemBuilder: (context, index){
+        ThreeBros thbro = threebros[index]; 
+        return Card(
+          child: ListTile(
+            title: Text(thbro.name, style: TextStyle(fontSize: 18.0),),
+            subtitle: Text(thbro.number.toString(), style: TextStyle(fontSize: 14.0),),
+            trailing: Column(
+              children: <Widget>[
+                FloatingActionButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => TBForm()));
+                  },
+                  child: Icon(Icons.add),
+                  shape: RoundedRectangleBorder(),
+                  backgroundColor: Colors.yellow
+                ),
+                Icon(Icons.arrow_forward_rounded)
+              ],
+            ),
+            onTap: () {
+              Navigator.push(
+                context, MaterialPageRoute(builder: (context) => ThreeBrosScreen(thbro)));
+            },
+          ),
+        );
+       },
+      ),
+    );
+  }
+
+}
+
+
+
+tb_form.dart
+
+import 'package:flutter/material.dart';
+
+class TBForm extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("TB Form"),),
+    );
+  }
+}
+
+threebros_detail_screen.dart
+
+import 'package:flutter/material.dart';
+import 'package:threebros/models/tb_list.dart';
+
+class ThreeBrosScreen extends StatelessWidget {
+
+  final ThreeBros thbro;
+
+  ThreeBrosScreen(this.thbro);
+  
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('ThreeBros Detail'),
+      ),
+
+      body: Container(
+        child: Center(
+          child: Column(
+            children: <Widget>[
+                Text("Name : " + thbro.name,),
+                Text("Number : " + thbro.number.toString()),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+tb_list.dart
+
+
+import 'package:flutter/material.dart';
+
+class ThreeBros {
+
+  String name;
+  int number;
+
+  ThreeBros({
+              @required this.name,
+              @required this.number
+            });
+}
+
+
+List<ThreeBros> threebros = [
+
+  ThreeBros(name: "Uzair", number: 03105894788),
+  ThreeBros(name: "Ali", number: 03135854778),
+  ThreeBros(name: "Salman", number: 03335894244),
+  ThreeBros(name: "Noman", number: 03240059463),
+  ThreeBros(name: "Muzamil", number: 03132563149),
+  ThreeBros(name: "Abdullah", number: 03228845696),
+  ThreeBros(name: "Ashfaq", number: 03472314560),
+  ThreeBros(name: "Rohan", number: 03189789532),
+  ThreeBros(name: "Muneeb", number: 03113055647),
+  ThreeBros(name: "Shahir", number: 03332233444),
+  ThreeBros(name: "Afaan", number: 03482020421),
+
+];
+
