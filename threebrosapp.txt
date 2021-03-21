@@ -83,8 +83,117 @@ import 'package:flutter/material.dart';
 class TBForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("TB Form"),),
+    return MaterialApp(
+        home: Scaffold(
+      appBar: AppBar(
+        title: Text("TB Form"),
+      ),
+      body: TestForm(),
+    ));
+  }
+}
+
+class TestForm extends StatefulWidget {
+  @override
+  _TestFormState createState() => _TestFormState();
+}
+
+class _TestFormState extends State<TestForm> {
+  final _formkey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    final halfMediaWidth = MediaQuery.of(context).size.width / 2.0;
+
+    return Form(
+      key: _formkey,
+      child: Column(
+        children: <Widget>[
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.topCenter,
+                width: halfMediaWidth,
+                child: MyTextField(
+                  hintText: 'First Name',
+                ),
+              ),
+              Container(
+                alignment: Alignment.topCenter,
+                width: halfMediaWidth,
+                child: MyTextField(
+                  hintText: 'Last Name',
+                ),
+              ),
+            ],
+          ),
+          MyTextField(
+            hintText: 'Email',
+            isEmail: true,
+          ),
+          MyTextField(
+            hintText: 'Password',
+            isPassword: true,
+          ),
+          MyTextField(
+            hintText: 'Confirm Password',
+            isPassword: true,
+          ),
+          MaterialButton(
+              color: Colors.blueAccent,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              child: Text(
+                'Sign Up',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              onPressed: () {
+                print('Sign Up');
+              })
+        ],
+      ),
+    );
+  }
+}
+
+class MyTextField extends StatelessWidget {
+  final String hintText;
+  final Function validator;
+  final Function onSaved;
+  final bool isEmail;
+  final bool isPassword;
+
+  MyTextField({
+    this.hintText,
+    this.validator,
+    this.onSaved,
+    this.isEmail = false,
+    this.isPassword = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: TextFormField(
+        decoration: InputDecoration(
+          hintText: hintText,
+          contentPadding: EdgeInsets.all(15.0),
+          border: new OutlineInputBorder(
+            borderRadius: BorderRadius.all(const Radius.circular(90.0)),
+            borderSide: BorderSide.none,
+          ),
+          filled: true,
+          fillColor: Colors.grey[200],
+        ),
+        obscureText: isPassword ? true : false,
+        validator: validator,
+        onSaved: onSaved,
+        keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
+      ),
     );
   }
 }
